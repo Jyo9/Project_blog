@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %} Add Page {% endblock %}
+
+{% block content %}
+  <form method="post" action="#">
+      {% csrf_token %}
+
+      <h2><a href="{% url 'dashboard' %}">Go To Dashboard</a></h2>
+
+      {% if edit %}
+          <h2>Edit Record</h2>
+      {% else %}
+          <h2>Add Record</h2>
+      {% endif %}
+    
+      {{ form.non_field_errors }}  
+      {{ form.source.errors }}
+      {{ form.source }}
+    
+      <table border="1">
+      
+          <tr>
+            <th>{{ form.region.label_tag }}</th>
+            <td>
+              {{ form.region.errors }}
+              {{ form.region }}
+            </td>
+          </tr>
+
+          <tr>
+              <th>{{ form.country.label_tag }}</th>
+              <td>
+                {{ form.country.errors }}
+                {{ form.country }}
+              </td>
+            </tr>
+
+            <tr>
+              <th>{{ form.item_type.label_tag }}</th>
+              <td>
+                {{ form.item_type.errors }}
+                {{ form.item_type }}
+              </td>
+            </tr>
+
+            <tr>
+              <th>{{ form.sales_channel.label_tag }}</th>
+              <td>
+                {{ form.sales_channel.errors }}
+                {{ form.sales_channel }}
+              </td>
+            </tr>
+
+            <tr>
+              <th>{{ form.order_priority.label_tag }}</th>
+              <td>
+                {{ form.order_priority.errors }}
+                {{ form.order_priority }}
+              </td>
+            </tr>
+
+            <tr>
+              <th>{{ form.order_date.label_tag }}</th>
+              <td>
+                {{ form.order_date.errors }}
+                {{ form.order_date }}
+              </td>
+            </tr>
+
+            <tr>
+              <th>{{ form.ship_date.label_tag }}</th>
+              <td>
+                {{ form.ship_date.errors }}
+                {{ form.ship_date }}
+              </td>
+            </tr>
+
+            <tr>
+              <th>{{ form.units_sold.label_tag }}</th>
+              <td>
+                {{ form.units_sold.errors }}
+                {{ form.units_sold }}
+              </td>
+            </tr>
+
+            <tr>
+              <th>{{ form.unit_price.label_tag }}</th>
+              <td>
+                {{ form.unit_price.errors }}
+                {{ form.unit_price }}
+              </td>
+            </tr>
+
+            <tr>
+              <th>{{ form.unit_cost.label_tag }}</th>
+              <td>
+                {{ form.unit_cost.errors }}
+                {{ form.unit_cost }}
+              </td>
+            </tr>
+    
+      </table>
+    
+      <button type="submit">Submit</button>
+  </form>
+{% endblock %}

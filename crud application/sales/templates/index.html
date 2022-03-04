@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sales Records</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        ul{
+            overflow:hidden;
+        }
+        li{
+            display:inline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Sales Records</h2>
+    <h3><a href="{% url 'add_sales_record' %}">Add New Record</a></h3>
+    <h3><a target="_blank" href="{% url 'dashboard' %}?download=1">Download CSV</a></h3>
+    <form method="post" action="#">
+        {% csrf_token %}
+        <input type="text" name="search" value="{{ search }}" />
+        <button type="submit">Search</button> e.g Any word, Any sentence, dd/mm/yyyy, 3868, 4359850.95
+
+        {% if not salesRecords %}
+            <h3>No Records Found For "{{ search }}"</h3>
+        {% endif %}
+
+    </form>
+    <br />
+
+
+
+    <table border="1">
+        <tr>
+            <th>Action</th>
+            <th>Region</th>
+            <th>Country</th>
+            <th>Item Type</th>
+            <th>Sales Channel</th>
+            <th>Order Priority</th>
+            <th>Order Date</th>
+            <th>Order ID</th>
+            <th>Ship Date</th>
+            <th>Units Sold</th>
+            <th>Unit Price</th>
+            <th>Unit Cost</th>
+            <th>Total Revenue</th>
+            <th>Total Cost</th>
+            <th>Total Profit</th>
+        </tr>
+        {% for salesrecord in salesRecords %}
+            <tr>
+                <td><a href="{% url 'edit_sales_record' salesrecord.id %}"> <i style="font-size:24px" class="fa">&#xf044;</i> </a></td>
+                <td>{{ salesrecord.region }}</td>
+                <td>{{ salesrecord.country }}</td>
+                <td>{{ salesrecord.item_type }}</td>
+                <td>{{ salesrecord.sales_channel }}</td>
+                <td>
+                    {% if salesrecord.order_priority == 'H' %}
+                        High
+                    {% elif salesrecord.order_priority == 'M' %}
+                        Medium
+                    {% elif salesrecord.order_priority == 'L' %}
+                        Low
+                    {% elif salesrecord.order_priority == 'C' %}
+                        Cancel
+                    {% endif %}
+
+                </td>
+                <td>{{ salesrecord.order_date }}</td>
+                <td>{{ salesrecord.order_id }}</td>
+                <td>{{ salesrecord.ship_date }}</td>
+                <td>{{ salesrecord.units_sold }}</td>
+                <td>{{ salesrecord.unit_price }}</td>
+                <td>{{ salesrecord.unit_cost }}</td>
+                <td>{{ salesrecord.total_revenue }}</td>
+                <td>{{ salesrecord.total_cost }}</td>
+                <td>{{ salesrecord.total_profit }}</td>
+            </tr>
+        {% endfor %}
+    
+    </table>
+    
+    {% if salesRecords.has_other_pages %}
+    <ul class="pagination">
+        {% if salesRecords.has_previous %}
+        <li><a href="?page={{ users.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+        <li class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+        {% for i in salesRecords.paginator.page_range %}
+        {% if salesRecords.number == i %}
+            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% else %}
+            <li><a href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+        {% endfor %}
+        {% if salesRecords.has_next %}
+        <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
+        {% else %}
+        <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+    </ul>
+    {% endif %}
+</body>
+</html>
